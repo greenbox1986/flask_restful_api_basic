@@ -10,9 +10,10 @@ from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL',DATABASE_DEFAULT)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ('DATABASE_URL', 'sqlite:///data.db')
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ('DATABASE_URL', 'sqlite:///data.db')
+app.config.from_object(os.environ['DATABASE_URL'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 app.secret_key = 'Ehsan'
 api = Api(app)
 
