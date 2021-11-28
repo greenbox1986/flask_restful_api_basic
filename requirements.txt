@@ -4,4 +4,3 @@ Flask-RESTful
 Flask-SQLAlchemy
 uwsgi
 psycopg2
-psycopg2-binary
