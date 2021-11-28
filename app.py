@@ -14,7 +14,6 @@ DATABASE_DEFAULT = 'postgres://nqhhlfuozdepub:c7287309c7bbd3992f7bf09a26a468a8c6
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL',DATABASE_DEFAULT)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', DATABASE_DEFAULT)#'sqlite:///data.db' ,
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 app.secret_key = 'Ehsan'
 api = Api(app)
 
