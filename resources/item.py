@@ -38,7 +38,7 @@ class Item(Resource):
 
         return item.json(), 201
 
-    @jwt_required
+    @jwt_required()
     def delete(self, name):
         claims = get_jwt_claims()
         if not claims['is_admin']:
