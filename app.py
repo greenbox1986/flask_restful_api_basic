@@ -28,7 +28,7 @@ def create_tables():
 
 jwt = JWTManager(app)
 
-@jwt.user_claims_loader
+@jwt.user_claims_loader()
 def add_claims_to_jwt(identity):
     if identity == 1:
         return {'is_admin': True}
