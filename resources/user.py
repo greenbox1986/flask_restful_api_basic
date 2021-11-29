@@ -15,9 +15,8 @@ _user_parser.add_argument('password',
                           help="This field cannot be blank."
                           )
 
-    
+
 class UserRegister(Resource):
-    
     def post(self):
         data = _user_parser.parse_args()
 
@@ -28,7 +27,7 @@ class UserRegister(Resource):
         user.save_to_db()
 
         return {"message": "User created successfully."}, 201
-
+    
 
 class User(Resource):
     """
@@ -52,23 +51,19 @@ class User(Resource):
 
 
 class UserLogin(Resource):
-    
-    @classmethod
-    def post(cls):
-        # get data from parser
+    def post(self):
         data = _user_parser.parse_args()
 
-        # find user in database
         user = UserModel.find_by_username(data['username'])
 
-
-        # check password
+        # this is what the `authenticate()` function did in security.py
         if user and safe_str_cmp(user.password, data['password']):
-            access_token = create_access_token(identity=user.id, fresh=True)
+            # identity= is what the identity() function did in security.py—now stored in the JWT
+            access_token = create_access_token(identity=user.id, fresh=True) 
             refresh_token = create_refresh_token(user.id)
             return {
                 'access_token': access_token,
                 'refresh_token': refresh_token
-                }, 200
-        return {'message': 'Invalid credentials'}, 401
-        
+            }, 200
+
+        return {"message": "Invalid Credentials!"}, 401
