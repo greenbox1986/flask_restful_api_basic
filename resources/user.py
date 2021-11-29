@@ -56,7 +56,7 @@ class UserLogin(Resource):
     @classmethod
     def post(cls):
         # get data from parser
-        data = _user_parser.parser.parse_args()
+        data = _user_parser.parse_args()
 
         # find user in database
         user = UserModel.find_by_username(data['username'])
@@ -68,7 +68,7 @@ class UserLogin(Resource):
             refresh_token = create_refresh_token(user.id)
             return {
                 'access_token': access_token,
-                'refresh_token': refresh_tokens
+                'refresh_token': refresh_token
                 }, 200
         return {'message': 'Invalid credentials'}, 401
         
