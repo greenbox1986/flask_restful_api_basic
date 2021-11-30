@@ -1,9 +1,10 @@
 from flask import Flask
 from flask_restful import Api
-#from flask_jwt_extended import JWTManager
+from flask_jwt import JWT
 
 from db import db
-from resources.user import UserRegister, User, UserLogin
+from security import authenticate, identity
+from resources.user import UserRegister, User
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 
@@ -11,7 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://nqhhlfuozdepub:c7287309c7bbd3992f7bf09a26a468a8c68e3a9a3604bf4591cbdab91444da5c@ec2-34-224-117-67.compute-1.amazonaws.com:5432/d2v59spqrh0hm0'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
-app.secret_key = 'jose'  # could do app.config['JWT_SECRET_KEY'] if we prefer
+app.secret_key = 'jose'
 api = Api(app)
 
 
@@ -20,7 +21,7 @@ def create_tables():
     db.create_all()
 
 
-jwt = JWTManager(app)
+jwt = JWT(app, authenticate, identity)  # /auth
 
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
@@ -28,7 +29,6 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserRegister, '/register')
 api.add_resource(User, '/user/<int:user_id>')
-api.add_resource(UserLogin, '/login')
 
 if __name__ == '__main__':
     db.init_app(app)
