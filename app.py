@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
+from flask_jwt import JWT
 
 from db import db
 from security import authenticate, identity
@@ -13,13 +13,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://nqhhlfuozdepub:c7287309c7b
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'jose'
-jwt = JWTManager(app)  # /auth
 api = Api(app)
-'''
+
+
 @app.before_first_request
 def create_tables():
     db.create_all()
-'''
+
+
+jwt = JWT(app, authenticate, identity)  # /auth
+
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
 api.add_resource(Item, '/item/<string:name>')
