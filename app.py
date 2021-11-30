@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from flask_jwt import JWT
+from flask_jwt_extended import JWTManager
 
 from db import db
 from security import authenticate, identity
@@ -21,7 +21,7 @@ def create_tables():
     db.create_all()
 
 
-jwt = JWT(app, authenticate, identity)  # /auth
+jwt = JWTManager(app)  # /auth
 
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
