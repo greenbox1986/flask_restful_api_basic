@@ -13,15 +13,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://nqhhlfuozdepub:c7287309c7b
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'jose'
+jwt = JWTManager(app)  # /auth
 api = Api(app)
-
 
 @app.before_first_request
 def create_tables():
     db.create_all()
-
-
-jwt = JWTManager(app)  # /auth
 
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
